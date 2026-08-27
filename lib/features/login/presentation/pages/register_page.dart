@@ -1,9 +1,8 @@
-
+// lib/features/auth/presentation/pages/register_page.dart
 import 'package:flutter/material.dart';
-import 'package:help_desk/features/login/presentation/pages/register_page.dart';
 
-class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+class RegisterPage extends StatelessWidget {
+  const RegisterPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,15 +15,15 @@ class LoginPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 // Header
-                const SizedBox(height: 40),
+                const SizedBox(height: 20),
                 Icon(
-                  Icons.lock_outline,
+                  Icons.person_add_alt_1_outlined,
                   size: 80,
                   color: Colors.blue,
                 ),
                 const SizedBox(height: 20),
                 Text(
-                  'Bem-vindo de volta',
+                  'Criar Conta',
                   style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
@@ -32,7 +31,7 @@ class LoginPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'Faça login para continuar',
+                  'Preencha os dados abaixo para se cadastrar',
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: Colors.grey[600],
                   ),
@@ -40,10 +39,25 @@ class LoginPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 32),
 
-               
+                // Campo de Nome Completo
                 TextFormField(
                   decoration: InputDecoration(
-                    labelText: 'Email',
+                    labelText: 'Nome Completo',
+                    hintText: 'Digite seu nome completo',
+                    prefixIcon: const Icon(Icons.person_outline),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    filled: true,
+                    fillColor: Colors.grey[50],
+                  ),
+                ),
+                const SizedBox(height: 16),
+
+                // Campo de E-mail
+                TextFormField(
+                  decoration: InputDecoration(
+                    labelText: 'E-mail',
                     hintText: 'Digite seu e-mail',
                     prefixIcon: const Icon(Icons.email_outlined),
                     border: OutlineInputBorder(
@@ -55,7 +69,21 @@ class LoginPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
 
-               
+                TextFormField(
+                  decoration: InputDecoration(
+                    labelText: 'Telefone',
+                    hintText: 'Digite seu telefone',
+                    prefixIcon: const Icon(Icons.phone),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      
+                    ),
+                    filled: true,
+                    fillColor: Colors.grey[50],
+                  ),
+                ),
+
+                // Campo de Senha
                 TextFormField(
                   obscureText: true,
                   decoration: InputDecoration(
@@ -73,19 +101,54 @@ class LoginPage extends StatelessWidget {
                     fillColor: Colors.grey[50],
                   ),
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: 16),
 
-             
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: TextButton(
-                    onPressed: () {},
-                    child: const Text('Esqueceu a senha?'),
-                  ),
+                // Campo de Confirmar Senha
+            
+  
+
+                // Termos e condições
+                Row(
+                  children: [
+                    Checkbox(
+                      value: false,
+                      onChanged: (value) {},
+                      activeColor: Colors.blue,
+                    ),
+                    Expanded(
+                      child: RichText(
+                        text: TextSpan(
+                          style: const TextStyle(
+                            color: Colors.grey,
+                            fontSize: 14,
+                          ),
+                          children: [
+                            const TextSpan(text: 'Li e concordo com os '),
+                            TextSpan(
+                              text: 'Termos de Uso',
+                              style: TextStyle(
+                                color: Colors.blue,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            const TextSpan(text: ' e '),
+                            TextSpan(
+                              text: 'Política de Privacidade',
+                              style: TextStyle(
+                                color: Colors.blue,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 24),
 
-                
+                const SizedBox(height: 16),
+
+                // Botão Registrar
                 SizedBox(
                   width: double.infinity,
                   height: 50,
@@ -99,7 +162,7 @@ class LoginPage extends StatelessWidget {
                       foregroundColor: Colors.white,
                     ),
                     child: const Text(
-                      'Entrar',
+                      'Cadastrar',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -109,22 +172,20 @@ class LoginPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
 
-              
+                // Já tem conta?
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text(
-                      'Não tem uma conta?',
+                      'Já tem uma conta?',
                       style: TextStyle(color: Colors.grey),
                     ),
                     TextButton(
                       onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context){
-                            return RegisterPage();
-                        }));
+                        Navigator.pop(context);
                       },
                       child: const Text(
-                        'Cadastre-se',
+                        'Fazer Login',
                         style: TextStyle(
                           color: Colors.blue,
                           fontWeight: FontWeight.w600,
