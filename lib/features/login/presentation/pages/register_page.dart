@@ -120,6 +120,8 @@ class _RegisterPageState extends State<RegisterPage> {
                       fillColor: Colors.grey[50],
                     ),
                   ),
+
+                   const SizedBox(height: 16),
         
                   // Campo de Senha
                   TextFormField(
