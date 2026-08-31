@@ -3,7 +3,7 @@ class RegisterResponseModel {
   final String email;
   final String telefone;
   final int id;
-  final DateTime criado;
+  final String criado;
 
   RegisterResponseModel({
     required this.nome,
