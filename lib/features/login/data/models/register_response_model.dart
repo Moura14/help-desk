@@ -1,0 +1,35 @@
+class RegisterResponseModel {
+  final String nome;
+  final String email;
+  final String telefone;
+  final int id;
+  final DateTime criado;
+
+  RegisterResponseModel({
+    required this.nome,
+    required this.email,
+    required this.telefone,
+    required this.id,
+    required this.criado
+  });
+
+  factory RegisterResponseModel.fromJson(Map<String, dynamic> json) {
+    return RegisterResponseModel(
+      nome: json['nome'] ?? '',
+      email: json['email'] ?? '',
+      telefone: json['telefone'] ?? '',
+      id: json['id'] ?? '',
+      criado: json['criado'] ?? ''
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'nome': nome,
+      'email': email,
+      'telefone': telefone,
+      'id': id,
+      'criado': criado
+    };
+  }
+}

@@ -1,22 +1,23 @@
 class RegisterModel {
   final String nome;
   final String email;
-  final String telefone;
   final String senha;
+  final String telefone;
+  
 
   RegisterModel({
     required this.nome,
     required this.email,
-    required this.telefone,
     required this.senha,
+     required this.telefone,
   });
 
   factory RegisterModel.fromJson(Map<String, dynamic> json) {
     return RegisterModel(
       nome: json['nome'] ?? '',
       email: json['email'] ?? '',
-      telefone: json['telefone'] ?? '',
       senha: json['senha'] ?? '',
+      telefone: json['telefone'] ?? '',
     );
   }
 
@@ -24,8 +25,8 @@ class RegisterModel {
     return {
       'nome': nome,
       'email': email,
-      'telefone': telefone,
       'senha': senha,
+      'telefone': telefone,
     };
   }
 }
