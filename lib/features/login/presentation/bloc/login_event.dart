@@ -1,9 +1,19 @@
-import 'package:help_desk/features/login/data/models/register_model.dart';
+abstract class LoginEvent {
+  const LoginEvent();
 
-abstract class RegisterEvent {}
-
-class RegisterButtonPressed extends RegisterEvent {
-  final RegisterModel registro;
-
-  RegisterButtonPressed(this.registro);
+  @override
+  List<Object> get props => [];
 }
+
+class LoginButtonPressed extends LoginEvent {
+  final String email;
+  final String senha;
+
+  const LoginButtonPressed({required this.email, required this.senha});
+
+  @override
+  List<Object> get props => [email, senha];
+}
+
+
+class LogoutRequested extends LoginEvent {}

@@ -3,4 +3,5 @@ import 'package:help_desk/features/login/data/models/register_response_model.dar
 
 abstract class LoginRepositorieDomain {
   Future<RegisterResponseModel> registrar(RegisterModel registro);
+  Future<RegisterResponseModel> login(String email, String senha);
 }

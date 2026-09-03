@@ -1,17 +1,18 @@
 import 'package:help_desk/features/login/data/models/register_response_model.dart';
 
-abstract class RegisterState {}
+abstract class LoginState {}
 
-class RegisterInitial extends RegisterState {}
 
-class RegisterLoading extends RegisterState {}
+class LoginInitial extends LoginState {}
 
-class RegisterSuccess extends RegisterState {
+class LoginLoading extends LoginState {}
+
+class LoginSuccess extends LoginState {
   final RegisterResponseModel response;
-  RegisterSuccess(this.response);
+  LoginSuccess(this.response);
 }
 
-class RegisterFailure extends RegisterState {
+class LoginFailure extends LoginState {
   final String message;
-  RegisterFailure(this.message);
+  LoginFailure(this.message);
 }

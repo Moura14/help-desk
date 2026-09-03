@@ -6,6 +6,7 @@ import 'package:help_desk/features/login/data/models/register_response_model.dar
 abstract class LoginDatasource {
 
   Future<RegisterResponseModel> registrar(RegisterModel registro);
+  Future<RegisterResponseModel> login(String email, String senha);
 
 }
 
@@ -39,6 +40,29 @@ class LoginDataSourceImpl implements LoginDatasource{
       rethrow;
     }
 
+  }
+
+
+  @override
+  Future<RegisterResponseModel> login(String email, String senha) async{
+    try{
+      final response = await dio.post(
+        Endpoint.login,
+        data: {
+          'email': email,
+          'senha': senha,
+        },
+      );
+      if(response.statusCode == 200 || response.statusCode == 201){
+        final registerModel = RegisterResponseModel.fromJson(response.data);
+        return registerModel;
+      }else{
+        throw Exception("Erro ao logar: ${response.data}");
+      }
+    }catch(e){
+      print(e.hashCode);
+      rethrow;
+    }
   }
 
 }

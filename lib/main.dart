@@ -4,9 +4,9 @@ import 'package:dio/dio.dart';
 
 import 'package:help_desk/features/login/data/datasource/login_datasource.dart';
 import 'package:help_desk/features/login/data/repositories/login_respositores_data.dart';
-import 'package:help_desk/features/login/domain/repositories/login_repositorie_domain.dart';
 import 'package:help_desk/features/login/domain/usecase/login_usecase.dart';
 import 'package:help_desk/features/login/presentation/bloc/login_bloc.dart';
+import 'package:help_desk/features/login/presentation/bloc/register_bloc.dart';
 import 'package:help_desk/features/login/presentation/pages/login_page.dart';
 
 void main() {
@@ -20,21 +20,28 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final dio = Dio();
 
-    // Criando o datasource com Dio
+    // Datasource
     final loginDatasource = LoginDataSourceImpl(dio: dio);
 
-    // Criando o repositório com o datasource
+    // Repositório
     final loginRepository = LoginRepositoriesDataImpl(
       loginDatasource: loginDatasource,
     );
 
-    // Criando o usecase com o repositório
+    // Usecase (único para login e registro)
     final loginUsecase = LoginUsecase(
       loginRepositorieDomain: loginRepository,
     );
 
-    return BlocProvider(
-      create: (context) => RegisterBloc(loginUsecase),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<LoginBloc>(
+          create: (context) => LoginBloc(loginUseCase: loginUsecase),
+        ),
+        BlocProvider<RegisterBloc>(
+          create: (context) => RegisterBloc(loginUsecase),
+        ),
+      ],
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(

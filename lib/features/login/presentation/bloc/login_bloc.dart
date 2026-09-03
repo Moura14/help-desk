@@ -1,24 +1,26 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:help_desk/features/login/data/models/register_model.dart';
 import 'package:help_desk/features/login/data/models/register_response_model.dart';
-import 'package:help_desk/features/login/domain/usecase/login_usecase.dart';
-import 'package:help_desk/features/login/domain/usecase/login_usecase.dart';
 import 'package:help_desk/features/login/presentation/bloc/login_event.dart';
 import 'package:help_desk/features/login/presentation/bloc/login_state.dart';
+import 'package:help_desk/features/login/domain/usecase/login_usecase.dart';
 
-class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
-  final LoginUsecase loginUsecase;
+class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
-  RegisterBloc(this.loginUsecase) : super(RegisterInitial()) {
-    on<RegisterButtonPressed>((event, emit) async {
-      emit(RegisterLoading());
+  final LoginUsecase loginUseCase;
+
+  LoginBloc({required this.loginUseCase}) : super(LoginInitial()) {
+    on<LoginButtonPressed>((event, emit) async {
+      emit(LoginLoading());
       try {
         final RegisterResponseModel response =
-            await loginUsecase.registro(event.registro);
-        emit(RegisterSuccess(response));
+            await loginUseCase.login(event.email, event.senha);
+        emit(LoginSuccess(response));
       } catch (e) {
-        emit(RegisterFailure(e.toString()));
+        emit(LoginFailure(e.toString()));
       }
+    });
+    on<LogoutRequested>((event, emit) {
+      emit(LoginInitial());
     });
   }
 }

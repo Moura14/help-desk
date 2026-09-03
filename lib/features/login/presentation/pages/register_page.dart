@@ -2,9 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:help_desk/features/login/data/models/register_model.dart';
-import 'package:help_desk/features/login/presentation/bloc/login_bloc.dart';
-import 'package:help_desk/features/login/presentation/bloc/login_event.dart';
-import 'package:help_desk/features/login/presentation/bloc/login_state.dart';
+import 'package:help_desk/features/login/presentation/bloc/register_bloc.dart';
+import 'package:help_desk/features/login/presentation/bloc/register_event.dart';
+import 'package:help_desk/features/login/presentation/bloc/register_state.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});

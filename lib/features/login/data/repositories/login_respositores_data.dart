@@ -12,4 +12,11 @@ class LoginRepositoriesDataImpl implements LoginRepositorieDomain {
   Future<RegisterResponseModel> registrar(RegisterModel registro) {
     return loginDatasource.registrar(registro);
   }
+
+  @override
+  Future<RegisterResponseModel> login(String email, String senha) {
+    return loginDatasource.login(email, senha);
+  }
+
+  
 }

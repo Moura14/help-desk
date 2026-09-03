@@ -18,7 +18,7 @@ class RegisterResponseModel {
       nome: json['nome'] ?? '',
       email: json['email'] ?? '',
       telefone: json['telefone'] ?? '',
-      id: json['id'] ?? '',
+       id: json['id'] is int ? json['id'] : int.tryParse(json['id'].toString()) ?? 0,
       criado: json['criado'] ?? ''
     );
   }

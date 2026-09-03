@@ -14,5 +14,9 @@ class LoginUsecase {
     return await loginRepositorieDomain.registrar(registro);
   }
 
+  Future<RegisterResponseModel> login(String email, String senha) async{
+    return await loginRepositorieDomain.login(email, senha);
+  }
+
 
 }
