@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:help_desk/features/home/presentation/pages/home_page.dart';
 import 'package:help_desk/features/login/presentation/bloc/login_bloc.dart';
 import 'package:help_desk/features/login/presentation/bloc/login_event.dart';
 import 'package:help_desk/features/login/presentation/bloc/login_state.dart';
@@ -39,6 +40,11 @@ class _LoginPageState extends State<LoginPage> {
                 backgroundColor: Colors.green,
               ),
             );
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (_) =>  HomePage()));
+                                                                  
+
           }
         },
         builder: (context, state) {
