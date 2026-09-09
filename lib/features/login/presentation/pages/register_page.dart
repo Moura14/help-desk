@@ -26,16 +26,22 @@ class _RegisterPageState extends State<RegisterPage> {
     return Scaffold(
       body: BlocConsumer<RegisterBloc, RegisterState>(
         listener: (context, state){
-          if(state is RegisterSuccess){
+          if(state is RegisterFailure){
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Usuário registrado: ${state.response.criado}'))
+              SnackBar(content: Text(state.message),
+              backgroundColor: Colors.red,
+              )
             );
-
-
-          }else if(state is RegisterFailure){
+          }else if (state is RegisterSuccess){
+             print('Chegou o state sucess');
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Erro: ${state.message}'))
+              SnackBar(content: Text('Registro bem-sucedido!'),
+              backgroundColor: Colors.green,
+              )
             );
+            Navigator.of(context).pop();
+
+           
           }
         },
         builder: (context, state){
@@ -204,6 +210,8 @@ class _RegisterPageState extends State<RegisterPage> {
 
 
                           context.read<RegisterBloc>().add(RegisterButtonPressed(registro));
+
+                          
 
                           print(registro);
                       },

@@ -49,9 +49,12 @@ class LoginDataSourceImpl implements LoginDatasource{
       final response = await dio.post(
         Endpoint.login,
         data: {
-          'email': email,
-          'senha': senha,
+          'username': email,
+          'password': senha,
         },
+        options: Options(
+          contentType: Headers.formUrlEncodedContentType,
+  ),
       );
       if(response.statusCode == 200 || response.statusCode == 201){
         final registerModel = RegisterResponseModel.fromJson(response.data);
@@ -60,7 +63,8 @@ class LoginDataSourceImpl implements LoginDatasource{
         throw Exception("Erro ao logar: ${response.data}");
       }
     }catch(e){
-      print(e.hashCode);
+      print("Tipo: ${e.runtimeType}");
+      print("Erro: ${e}");
       rethrow;
     }
   }
