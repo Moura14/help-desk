@@ -1,6 +1,11 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:help_desk/features/ticket/data/model/ticket_create_model.dart';
+import 'package:help_desk/features/ticket/presentation/bloc/ticket_bloc.dart';
+import 'package:help_desk/features/ticket/presentation/bloc/ticket_event.dart';
+import 'package:help_desk/features/ticket/presentation/bloc/ticket_state.dart';
 import 'package:image_picker/image_picker.dart';
 
 class AbrirTicketPage extends StatefulWidget {
@@ -60,11 +65,37 @@ class _AbrirTicketPageState extends State<AbrirTicketPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Abrir Ticket", style: TextStyle(color: Colors.white),),
-        backgroundColor: Colors.black,
-        iconTheme: const IconThemeData(
-          color: Colors.white
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(kToolbarHeight),
+        child: BlocConsumer<TicketBloc, TicketState>(
+          listener: (context, state) {
+           if(state is TicketFailure){
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(state.message),
+                  backgroundColor: Colors.red,
+                ),
+              );
+            }else if(state is TicketSuccess){
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Ticket aberto com sucesso!'),
+                  backgroundColor: Colors.green,
+                ),
+              );
+              Navigator.pop(context);
+            }
+          },
+          builder: (context, state) {
+            if(state is TicketLoading){
+              return const Center(child: CircularProgressIndicator());
+            }
+            return AppBar(
+              title: const Text("Abrir Ticket"),
+              backgroundColor: Colors.black,
+            );
+          },
+        
         ),
       ),
       body: Padding(
@@ -123,26 +154,24 @@ class _AbrirTicketPageState extends State<AbrirTicketPage> {
               SizedBox(height: 20),
               ElevatedButton.icon(
                 onPressed: () {
-                  final ticket = {
-                    "titulo": tituloController.text,
-                    "descricao": descricaoController.text,
-                    "prioridade": prioridadeController.text,
-                    "categoria": categoriaController.text,
-                    "anexo_url": anexoController.text,
-                  };
+                  final ticket = TicketModel(
+                    titulo: tituloController.text,
+                    descricao: descricaoController.text,
+                    prioridade: prioridadeController.text,
+                    categoria: categoriaController.text,
+                    anexoUrl: anexoController.text,
+                  );
 
-                  // Aqui você pode chamar seu Bloc ou API
-                  print("Ticket criado: $ticket");
-
+                  context.read<TicketBloc>().add(TicketButtonPressed(ticket));
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
-                      content: Text("Ticket aberto com sucesso!"),
+                      content: Text("Ticket criado com sucesso!"),
                       backgroundColor: Colors.green,
                     ),
                   );
                 },
                 icon: const Icon(Icons.send),
-                label: const Text("Abrir Ticket"),
+                label: const Text("Criar Ticket"),
                 style: ElevatedButton.styleFrom(
                   minimumSize: const Size(double.infinity, 50),
                   backgroundColor: Colors.black,

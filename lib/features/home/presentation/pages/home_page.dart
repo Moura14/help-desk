@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:help_desk/features/home/presentation/pages/abrir_ticket.dart';
+import 'package:help_desk/features/ticket/presentation/pages/abrir_ticket.dart';
 
 class HomePage extends StatefulWidget {
  
