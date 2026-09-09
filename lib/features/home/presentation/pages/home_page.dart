@@ -12,8 +12,34 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Olá, Claython da Silva", style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.black,
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            DrawerHeader(
+              decoration: BoxDecoration(color: Colors.black),
+              child: Text(
+                'Olá, fulano de tal', style: TextStyle(color: Colors.white, fontSize: 20),
+              ),
+            ),
+            ListTile(
+          leading: const Icon(Icons.home),
+          title: const Text("Início"),
+          onTap: () {
+            Navigator.pushNamed(context, "/home");
+          },
+        ),
+        ListTile(
+          leading: const Icon(Icons.logout),
+          title: const Text("Sair"),
+          onTap: () {
+            Navigator.pushNamed(context, "/home");
+          },
+        ),
+          ],
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
