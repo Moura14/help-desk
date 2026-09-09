@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:help_desk/features/home/presentation/pages/abrir_ticket.dart';
 
 class HomePage extends StatefulWidget {
  
@@ -62,7 +63,11 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: (){},
+        onPressed: (){
+          Navigator.push(context, MaterialPageRoute(builder: (_){
+            return AbrirTicketPage();
+          }));
+        },
         backgroundColor: Colors.black,
         child: const Icon(Icons.add, color: Colors.white,),
         
