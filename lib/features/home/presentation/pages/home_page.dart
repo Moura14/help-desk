@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:help_desk/features/home/presentation/bloc/home_bloc.dart';
+import 'package:help_desk/features/home/presentation/bloc/home_event.dart';
+import 'package:help_desk/features/home/presentation/bloc/home_state.dart';
 import 'package:help_desk/features/ticket/presentation/bloc/ticket_bloc.dart';
 import 'package:help_desk/features/ticket/presentation/bloc/ticket_event.dart';
 import 'package:help_desk/features/ticket/presentation/bloc/ticket_state.dart';
@@ -18,6 +21,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     // dispara o evento assim que a tela abre
     context.read<TicketListBloc>().add(FetchTickets());
+    context.read<HomeBloc>().add(HomeInfo());
   }
   
   @override
@@ -30,27 +34,47 @@ class _HomePageState extends State<HomePage> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
-            DrawerHeader(
-              decoration: BoxDecoration(color: Colors.black),
-              child: Text(
-                'Olá, fulano de tal', style: TextStyle(color: Colors.white, fontSize: 20),
-              ),
-            ),
-            ListTile(
-          leading: const Icon(Icons.home),
-          title: const Text("Início"),
-          onTap: () {
-            Navigator.pushNamed(context, "/home");
-          },
-        ),
-        ListTile(
-          leading: const Icon(Icons.logout),
-          title: const Text("Sair"),
-          onTap: () {
-            Navigator.pushNamed(context, "/home");
-          },
-        ),
-          ],
+            BlocBuilder<HomeBloc, HomeState>(
+              builder: (context, state){
+                if(state is HomeLoading){
+                  return  DrawerHeader(
+                    decoration: BoxDecoration(color: Colors.black),
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+
+                  );
+                }else if (state is HomeSuccess){
+                  final usuario = state.response;
+                  return DrawerHeader(
+                    decoration: BoxDecoration(color: Colors.black),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text('Olá, ${usuario.nome}', style: TextStyle(color: Colors.white, fontSize: 15)),
+                        Text('Email: ${usuario.email}', style: TextStyle(color: Colors.white, fontSize: 15)),
+                        Text('Telefone: ${usuario.telefone}', style: TextStyle(color: Colors.white, fontSize: 15)),
+                        const SizedBox(height: 8),
+
+                      ],
+                    ),
+                  );
+                }else if (state is HomeFailure){
+                  return const DrawerHeader(
+                    decoration: BoxDecoration(color: Colors.black),
+                    child: Text('Erro ao carregar usuário:', style: TextStyle(color: Colors.white)),
+                  );
+                }
+                return const DrawerHeader(
+                  decoration: BoxDecoration(color: Colors.black),
+                  child: Text(
+                    'Teste'
+                  ),
+                );
+              },
+              
+        )],
         ),
       ),
       body: BlocBuilder<TicketListBloc, TicketListState>(
@@ -65,27 +89,16 @@ class _HomePageState extends State<HomePage> {
               return Padding(
             padding: const EdgeInsets.all(8.0),
             child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  ChamadoCard(titulo: ticket.titulo, 
-                  descricao: ticket.descricao,
-                  status: ticket.status, 
-                  data: ticket.dataCriacao.toString()),
-                  ChamadoCard(titulo: 'Teclado', 
-                  descricao: 'Troca de teclado', 
-                  status: 'Aberto', 
-                  data: '05 de junho'),
-                  
-                ],
-              ),
+              child: ChamadoCard(titulo: ticket.titulo, 
+              descricao: ticket.descricao,
+              status: ticket.status, 
+              data: ticket.dataCriacao.toString()),
             ),
                     );
             },
           );
           }else if (state is TicketFailure){
-            const Center(child: Text('Erro ao listar ticket'));
+           return const Center(child: Text('Erro ao listar ticket'));
           }
           return const SizedBox.shrink();
         },

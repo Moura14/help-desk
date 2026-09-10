@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dio/dio.dart';
+import 'package:help_desk/features/home/data/datasource/home_datasource.dart';
+import 'package:help_desk/features/home/data/repositories/info_repositories_data.dart';
+import 'package:help_desk/features/home/domain/repositories/home_repositories_domain.dart';
+import 'package:help_desk/features/home/domain/usecase/home_usecase.dart';
+import 'package:help_desk/features/home/presentation/bloc/home_bloc.dart';
 
 import 'package:help_desk/features/login/data/datasource/login_datasource.dart';
 import 'package:help_desk/features/login/data/repositories/login_respositores_data.dart';
@@ -43,6 +48,12 @@ class MyApp extends StatelessWidget {
 
     final ticketUsecase = TicketUsecase(ticketRepositorieDomain:ticketRepository );
 
+    final homeDatasource = HomeDatasourceImpl(dio: dio);
+
+    final homeRepositry = HomeRepositoriesDataImpl(homeDataSource: homeDatasource);
+
+    final homeUsecase = HomeUsecase(homeRepositoriesDomain: homeRepositry);
+
 
     return MultiBlocProvider(
       providers: [
@@ -54,7 +65,8 @@ class MyApp extends StatelessWidget {
         ),
 
         BlocProvider<TicketBloc>(create: (context) => TicketBloc(ticketUsecase)),
-        BlocProvider<TicketListBloc>(create: (context) => TicketListBloc(ticketUsecase))
+        BlocProvider<TicketListBloc>(create: (context) => TicketListBloc(ticketUsecase)),
+        BlocProvider<HomeBloc>(create: (context) => HomeBloc(homeUsecase))
 
         
       ],
