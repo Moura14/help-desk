@@ -91,8 +91,11 @@ class _AbrirTicketPageState extends State<AbrirTicketPage> {
               return const Center(child: CircularProgressIndicator());
             }
             return AppBar(
-              title: const Text("Abrir Ticket"),
+              title: const Text("Abrir Ticket", style: TextStyle(color: Colors.white)),
               backgroundColor: Colors.black,
+              iconTheme: const IconThemeData(
+              color: Colors.white, // cor da setinha
+  )
             );
           },
         
