@@ -43,6 +43,7 @@ class MyApp extends StatelessWidget {
 
     final ticketUsecase = TicketUsecase(ticketRepositorieDomain:ticketRepository );
 
+
     return MultiBlocProvider(
       providers: [
         BlocProvider<LoginBloc>(
@@ -52,7 +53,10 @@ class MyApp extends StatelessWidget {
           create: (context) => RegisterBloc(loginUsecase),
         ),
 
-        BlocProvider<TicketBloc>(create: (context) => TicketBloc(ticketUsecase))
+        BlocProvider<TicketBloc>(create: (context) => TicketBloc(ticketUsecase)),
+        BlocProvider<TicketListBloc>(create: (context) => TicketListBloc(ticketUsecase))
+
+        
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

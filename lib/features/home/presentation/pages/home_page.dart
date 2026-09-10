@@ -1,14 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:help_desk/features/ticket/presentation/bloc/ticket_bloc.dart';
+import 'package:help_desk/features/ticket/presentation/bloc/ticket_event.dart';
+import 'package:help_desk/features/ticket/presentation/bloc/ticket_state.dart';
 import 'package:help_desk/features/ticket/presentation/pages/abrir_ticket.dart';
 
 class HomePage extends StatefulWidget {
- 
+
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+
+  void initState() {
+    super.initState();
+    // dispara o evento assim que a tela abre
+    context.read<TicketListBloc>().add(FetchTickets());
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,25 +53,42 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              ChamadoCard(titulo: 'Pc não funciona', 
-              descricao: 'Meu pc não funcion de jeito nenhum', 
-              status: 'Aberto', 
-              data: '14 de maio'),
-              ChamadoCard(titulo: 'Teclado', 
-              descricao: 'Troca de teclado', 
-              status: 'Aberto', 
-              data: '05 de junho'),
-              
-            ],
-          ),
-        ),
+      body: BlocBuilder<TicketListBloc, TicketListState>(
+        builder: (context, state){
+          if(state is TicketListLoading){
+            return const Center(child: CircularProgressIndicator());
+          }else if (state is TicketListSucess){
+          return ListView.builder(
+            itemCount: state.tickets.length,
+            itemBuilder: (context, index){
+              final ticket = state.tickets[index];
+              return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  ChamadoCard(titulo: ticket.titulo, 
+                  descricao: ticket.descricao,
+                  status: ticket.status, 
+                  data: ticket.dataCriacao.toString()),
+                  ChamadoCard(titulo: 'Teclado', 
+                  descricao: 'Troca de teclado', 
+                  status: 'Aberto', 
+                  data: '05 de junho'),
+                  
+                ],
+              ),
+            ),
+                    );
+            },
+          );
+          }else if (state is TicketFailure){
+            const Center(child: Text('Erro ao listar ticket'));
+          }
+          return const SizedBox.shrink();
+        },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: (){

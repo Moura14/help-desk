@@ -79,7 +79,7 @@ class _AbrirTicketPageState extends State<AbrirTicketPage> {
             }else if(state is TicketSuccess){
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
-                  content: Text('Ticket aberto com sucesso!'),
+                  content: Text('Ticket criado com sucesso!'),
                   backgroundColor: Colors.green,
                 ),
               );
@@ -163,12 +163,6 @@ class _AbrirTicketPageState extends State<AbrirTicketPage> {
                   );
 
                   context.read<TicketBloc>().add(TicketButtonPressed(ticket));
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text("Ticket criado com sucesso!"),
-                      backgroundColor: Colors.green,
-                    ),
-                  );
                 },
                 icon: const Icon(Icons.send),
                 label: const Text("Criar Ticket"),

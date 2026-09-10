@@ -7,3 +7,7 @@ class TicketButtonPressed extends TicketEvent {
 
   TicketButtonPressed(this.ticket);
 }
+
+abstract class TicktListEvent{}
+
+class FetchTickets extends TicktListEvent{}
