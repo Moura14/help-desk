@@ -63,7 +63,7 @@ class _LoginPageState extends State<LoginPage> {
                   Icon(
                     Icons.lock_outline,
                     size: 80,
-                    color: Colors.blue,
+                    color: Colors.black,
                   ),
                   const SizedBox(height: 20),
                   Text(
@@ -125,7 +125,7 @@ class _LoginPageState extends State<LoginPage> {
                     alignment: Alignment.centerRight,
                     child: TextButton(
                       onPressed: () {},
-                      child: const Text('Esqueceu a senha?'),
+                      child: const Text('Esqueceu a senha?', style: TextStyle(color: Colors.black)),
                     ),
                   ),
                   const SizedBox(height: 24),
@@ -142,7 +142,7 @@ class _LoginPageState extends State<LoginPage> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        backgroundColor: Colors.blue,
+                        backgroundColor: Colors.black,
                         foregroundColor: Colors.white,
                       ),
                       child: const Text(
@@ -173,7 +173,7 @@ class _LoginPageState extends State<LoginPage> {
                         child: const Text(
                           'Cadastre-se',
                           style: TextStyle(
-                            color: Colors.blue,
+                            color: Colors.black,
                             fontWeight: FontWeight.w600,
                           ),
                         ),

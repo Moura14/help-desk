@@ -60,7 +60,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   Icon(
                     Icons.person_add_alt_1_outlined,
                     size: 80,
-                    color: Colors.blue,
+                    color: Colors.black,
                   ),
                   const SizedBox(height: 20),
                   Text(
@@ -174,7 +174,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               TextSpan(
                                 text: 'Termos de Uso',
                                 style: TextStyle(
-                                  color: Colors.blue,
+                                  color: Colors.black,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
@@ -182,7 +182,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               TextSpan(
                                 text: 'Política de Privacidade',
                                 style: TextStyle(
-                                  color: Colors.blue,
+                                  color: Colors.black,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
@@ -219,7 +219,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        backgroundColor: Colors.blue,
+                        backgroundColor: Colors.black,
                         foregroundColor: Colors.white,
                       ),
                       child: const Text(
@@ -248,7 +248,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         child: const Text(
                           'Fazer Login',
                           style: TextStyle(
-                            color: Colors.blue,
+                            color: Colors.black,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
