@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:help_desk/core/endpoints/endpoint.dart';
 import 'package:help_desk/features/home/data/models/info_model_response.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 abstract class HomeDataSource {
@@ -20,9 +21,13 @@ class HomeDatasourceImpl implements HomeDataSource{
   @override
 Future<InfoResponseModel> listarUsuario() async {
   try {
+
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('access_token');
+    
     final response = await dio.get(Endpoint.listatUsuario, options: Options(
       headers: {
-        "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZGFvQGdtYWlsLmNvbSIsImV4cCI6MTc4OTEzNjg3N30.Ill7fevGWKjk8kFbRHtU0btK2dBqqKUU6p3fFwUL8V4",
+        "Authorization": "Bearer $token",
         "Content-Type": "application/json"
       }
     ));

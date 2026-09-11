@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:help_desk/features/home/data/datasource/home_datasource.dart';
 import 'package:help_desk/features/home/data/repositories/info_repositories_data.dart';
-import 'package:help_desk/features/home/domain/repositories/home_repositories_domain.dart';
 import 'package:help_desk/features/home/domain/usecase/home_usecase.dart';
 import 'package:help_desk/features/home/presentation/bloc/home_bloc.dart';
 
@@ -17,13 +16,22 @@ import 'package:help_desk/features/ticket/data/datasource/ticket_datasource.dart
 import 'package:help_desk/features/ticket/data/repositories/ticket_repositorie.dart';
 import 'package:help_desk/features/ticket/domain/usecase/ticket_usecase.dart';
 import 'package:help_desk/features/ticket/presentation/bloc/ticket_bloc.dart';
+import 'package:help_desk/routes.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  final prefs = await SharedPreferences.getInstance();
+  final token = prefs.getString('access_token');
+  
+  runApp( MyApp(initialRoute: token != null ? Routes.initial : Routes.login));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+
+  final String initialRoute;
+
+  const MyApp({super.key, required this.initialRoute});
 
   @override
   Widget build(BuildContext context) {

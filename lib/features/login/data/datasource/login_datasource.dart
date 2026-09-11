@@ -1,12 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:help_desk/core/endpoints/endpoint.dart';
+import 'package:help_desk/features/login/data/models/login_response_model.dart';
 import 'package:help_desk/features/login/data/models/register_model.dart';
 import 'package:help_desk/features/login/data/models/register_response_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class LoginDatasource {
 
   Future<RegisterResponseModel> registrar(RegisterModel registro);
-  Future<RegisterResponseModel> login(String email, String senha);
+  Future<LoginResponseModel> login(String email, String senha);
 
 }
 
@@ -31,6 +33,7 @@ class LoginDataSourceImpl implements LoginDatasource{
 
       if(response.statusCode == 200 || response.statusCode == 201){
         final registerModel = RegisterResponseModel.fromJson(response.data);
+        
         return registerModel;
       }else{
        throw Exception("Erro ao registrar: ${response.data}");
@@ -44,7 +47,7 @@ class LoginDataSourceImpl implements LoginDatasource{
 
 
   @override
-  Future<RegisterResponseModel> login(String email, String senha) async{
+  Future<LoginResponseModel> login(String email, String senha) async{
     try{
       final response = await dio.post(
         Endpoint.login,
@@ -57,8 +60,10 @@ class LoginDataSourceImpl implements LoginDatasource{
   ),
       );
       if(response.statusCode == 200 || response.statusCode == 201){
-        final registerModel = RegisterResponseModel.fromJson(response.data);
-        return registerModel;
+        final loginModel = LoginResponseModel.fromJson(response.data);
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString('access_token', loginModel.accessToken);
+        return loginModel;
       }else{
         throw Exception("Erro ao logar: ${response.data}");
       }

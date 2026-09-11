@@ -1,3 +1,4 @@
+import 'package:help_desk/features/login/data/models/login_response_model.dart';
 import 'package:help_desk/features/login/domain/repositories/login_repositorie_domain.dart';
 import 'package:help_desk/features/login/data/datasource/login_datasource.dart';
 import 'package:help_desk/features/login/data/models/register_model.dart';
@@ -14,7 +15,7 @@ class LoginRepositoriesDataImpl implements LoginRepositorieDomain {
   }
 
   @override
-  Future<RegisterResponseModel> login(String email, String senha) {
+  Future<LoginResponseModel> login(String email, String senha) {
     return loginDatasource.login(email, senha);
   }
 

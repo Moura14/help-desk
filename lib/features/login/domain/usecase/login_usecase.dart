@@ -1,3 +1,4 @@
+import 'package:help_desk/features/login/data/models/login_response_model.dart';
 import 'package:help_desk/features/login/data/models/register_model.dart';
 import 'package:help_desk/features/login/data/models/register_response_model.dart';
 import 'package:help_desk/features/login/domain/repositories/login_repositorie_domain.dart';
@@ -14,7 +15,7 @@ class LoginUsecase {
     return await loginRepositorieDomain.registrar(registro);
   }
 
-  Future<RegisterResponseModel> login(String email, String senha) async{
+  Future<LoginResponseModel> login(String email, String senha) async{
     return await loginRepositorieDomain.login(email, senha);
   }
 

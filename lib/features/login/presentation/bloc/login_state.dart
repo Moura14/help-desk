@@ -1,4 +1,5 @@
-import 'package:help_desk/features/login/data/models/register_response_model.dart';
+import 'package:help_desk/features/login/data/models/login_response_model.dart';
+
 
 abstract class LoginState {}
 
@@ -8,7 +9,7 @@ class LoginInitial extends LoginState {}
 class LoginLoading extends LoginState {}
 
 class LoginSuccess extends LoginState {
-  final RegisterResponseModel response;
+  final LoginResponseModel response;
   LoginSuccess(this.response);
 }
 
