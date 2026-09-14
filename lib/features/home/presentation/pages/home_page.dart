@@ -19,7 +19,7 @@ class _HomePageState extends State<HomePage> {
 
   void initState() {
     super.initState();
-    // dispara o evento assim que a tela abre
+    
     context.read<TicketListBloc>().add(FetchTickets());
     context.read<HomeBloc>().add(HomeInfo());
   }
@@ -82,13 +82,19 @@ class _HomePageState extends State<HomePage> {
       ),
       body: BlocBuilder<TicketListBloc, TicketListState>(
         builder: (context, state){
+          print("Estado atual do TicketListBloc: $state");
           if(state is TicketListLoading){
             return const Center(child: CircularProgressIndicator());
           }else if (state is TicketListSucess){
+            if(state.tickets.isEmpty){
+              print(state.tickets);
+              return const Center(child: Text('Nenhum ticket encontrado'));
+            }
           return ListView.builder(
             itemCount: state.tickets.length,
             itemBuilder: (context, index){
               final ticket = state.tickets[index];
+              print(ticket);
               return Padding(
             padding: const EdgeInsets.all(8.0),
             child: Center(

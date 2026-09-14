@@ -31,9 +31,11 @@ class TicketListBloc extends Bloc<TicktListEvent, TicketListState>{
 
   TicketListBloc(this.ticketUsecase) : super(TicketListInitial()){
     on<FetchTickets>((event, emit) async{
+      print('Buscando tickets...');
       emit(TicketListLoading());
       try{
         final TicketListResponse response = await ticketUsecase.listarTicket();
+        print(response.tickets);
         emit(TicketListSucess(response.tickets));
       }catch(e){
         emit(TicketListFailure(e.toString()));
