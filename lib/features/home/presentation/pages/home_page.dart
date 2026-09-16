@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:help_desk/features/home/presentation/bloc/home_bloc.dart';
 import 'package:help_desk/features/home/presentation/bloc/home_event.dart';
 import 'package:help_desk/features/home/presentation/bloc/home_state.dart';
-import 'package:help_desk/features/ticket/data/model/ticket_create_model.dart';
 import 'package:help_desk/features/ticket/presentation/bloc/ticket_bloc.dart';
 import 'package:help_desk/features/ticket/presentation/bloc/ticket_event.dart';
 import 'package:help_desk/features/ticket/presentation/bloc/ticket_state.dart';
@@ -11,6 +10,7 @@ import 'package:help_desk/features/ticket/presentation/pages/abrir_ticket.dart';
 
 class HomePage extends StatefulWidget {
  
+
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -175,21 +175,35 @@ class ChamadoCard extends StatelessWidget {
             const SizedBox(height: 12),
             // status e data
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Chip(
-                  label: Text(status),
-                  backgroundColor: status == "Aberto"
-                      ? Colors.red[100]
-                      : Colors.green[100],
-                  labelStyle: TextStyle(
-                    color: status == "Aberto" ? Colors.red : Colors.green,
-                  ),
-                ),
-                Text(
-                  data,
-                  style: TextStyle(color: Colors.grey[600]),
-                ),
+                IconButton(
+              onPressed: (){}, 
+              icon: Icon(Icons.edit)),
+              IconButton(
+                onPressed: (){
+                  showDialog(context: context, 
+                  builder: (context){
+                    return AlertDialog(
+                      title: const Text('Confirmação'),
+                      content: const Text('Deseja realmente exluir esse item?'),
+                      actions: [
+                        TextButton(
+                          onPressed: (){
+                            Navigator.pop(context);
+                          }, 
+                          child: Text('Cancelar')),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.red
+                            ),
+                            onPressed: (){}, 
+                            child: Text('Confirmar', style: TextStyle(color: Colors.white)))
+                      ],
+                    );
+                  });
+                }, 
+                icon: Icon(Icons.delete))
               ],
             ),
           ],
