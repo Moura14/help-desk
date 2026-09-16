@@ -37,52 +37,61 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.black,
       ),
       drawer: Drawer(
+    child: Column(
+    children: [
+      Expanded(
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
             BlocBuilder<HomeBloc, HomeState>(
-              builder: (context, state){
-                if(state is HomeLoading){
-                  return  DrawerHeader(
-                    decoration: BoxDecoration(color: Colors.black),
-                    child: Center(
-                      child: CircularProgressIndicator(),
-                    ),
-
-                  );
-                }else if (state is HomeSuccess){
-                  final usuario = state.response;
-                  return DrawerHeader(
-                    decoration: BoxDecoration(color: Colors.black),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text('Olá, ${usuario.nome}', style: TextStyle(color: Colors.white, fontSize: 15)),
-                        Text('Email: ${usuario.email}', style: TextStyle(color: Colors.white, fontSize: 15)),
-                        Text('Telefone: ${usuario.telefone}', style: TextStyle(color: Colors.white, fontSize: 15)),
-                        const SizedBox(height: 8),
-
-                      ],
-                    ),
-                  );
-                }else if (state is HomeFailure){
+              builder: (context, state) {
+                if (state is HomeLoading) {
                   return const DrawerHeader(
                     decoration: BoxDecoration(color: Colors.black),
-                    child: Text('Erro ao carregar usuário:', style: TextStyle(color: Colors.white)),
+                    child: Center(child: CircularProgressIndicator()),
+                  );
+                } else if (state is HomeSuccess) {
+                  final usuario = state.response;
+                  return UserAccountsDrawerHeader(
+                    accountName: Text(usuario.nome),
+                    accountEmail: Text(usuario.email),
+                    currentAccountPicture: const CircleAvatar(
+                      backgroundColor: Colors.white,
+                      child: Text('M'),
+                    ),
+                    decoration: const BoxDecoration(color: Colors.black),
+                  );
+                } else if (state is HomeFailure) {
+                  return const DrawerHeader(
+                    decoration: BoxDecoration(color: Colors.black),
+                    child: Text('Erro ao carregar usuário',
+                        style: TextStyle(color: Colors.white)),
                   );
                 }
                 return const DrawerHeader(
                   decoration: BoxDecoration(color: Colors.black),
-                  child: Text(
-                    'Teste'
-                  ),
+                  child: Text('Teste'),
                 );
               },
-              
-        )],
+            ),
+          ],
         ),
       ),
+      Padding(
+        padding: const EdgeInsets.all(20),
+        child: ListTile(
+          leading: const Icon(Icons.logout, color: Colors.black),
+          title: const Text("Sair"),
+          onTap: () {
+            // lógica de logout aqui
+            Navigator.pop(context); // fecha o Drawer
+          },
+        ),
+      ),
+    ],
+  ),
+),
+
       body: BlocBuilder<TicketListBloc, TicketListState>(
         builder: (context, state){
           print("Estado atual do TicketListBloc: $state");
