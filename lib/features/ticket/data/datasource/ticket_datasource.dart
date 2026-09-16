@@ -3,6 +3,7 @@ import 'package:help_desk/core/endpoints/endpoint.dart';
 import 'package:help_desk/features/ticket/data/model/ticket_create_model.dart';
 import 'package:help_desk/features/ticket/data/model/ticket_response.dart';
 import 'package:help_desk/features/ticket/data/model/ticket_response_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class TicketDatasource {
 
@@ -24,12 +25,19 @@ class TicketDataSourceImpl implements TicketDatasource{
 
     try{
 
+      final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('access_token');
+    
+    final response = await dio.post(Endpoint.abrirTicket, data: ticket.toJson(), options: Options(
+      headers: {
+        "Authorization": "Bearer $token",
+        "Content-Type": "application/json"
+      }
+    ));
+
       print(ticket.toJson());
 
-      final response = await dio.post(
-        Endpoint.abrirTicket,
-        data: ticket.toJson(),
-      );
+  
 
       if(response.statusCode == 200 || response.statusCode == 201){
         final ticketResponse = TicketResponse.fromJson(response.data);
@@ -47,9 +55,17 @@ class TicketDataSourceImpl implements TicketDatasource{
   @override
   Future<TicketListResponse> listarTicket() async{
     try{
-      final response = await dio.get(
-        Endpoint.listarTicket
-      );
+
+      final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('access_token');
+    
+    final response = await dio.get(Endpoint.listarTicket, options: Options(
+      headers: {
+        "Authorization": "Bearer $token",
+        "Content-Type": "application/json"
+      }
+    ));
+     
       if(response.statusCode == 200 || response.statusCode == 201){
         final listarTicket = TicketListResponse.fromJson(response.data);
         return listarTicket;

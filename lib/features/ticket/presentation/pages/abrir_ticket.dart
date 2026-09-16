@@ -83,7 +83,7 @@ class _AbrirTicketPageState extends State<AbrirTicketPage> {
                   backgroundColor: Colors.green,
                 ),
               );
-              Navigator.pop(context);
+              Navigator.pop(context, state.response);
             }
           },
           builder: (context, state) {
@@ -166,6 +166,7 @@ class _AbrirTicketPageState extends State<AbrirTicketPage> {
                   );
 
                   context.read<TicketBloc>().add(TicketButtonPressed(ticket));
+                  Navigator.pop(context, true);
                 },
                 icon: const Icon(Icons.send),
                 label: const Text("Criar Ticket"),

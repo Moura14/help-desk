@@ -3,19 +3,22 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:help_desk/features/home/presentation/bloc/home_bloc.dart';
 import 'package:help_desk/features/home/presentation/bloc/home_event.dart';
 import 'package:help_desk/features/home/presentation/bloc/home_state.dart';
+import 'package:help_desk/features/ticket/data/model/ticket_create_model.dart';
 import 'package:help_desk/features/ticket/presentation/bloc/ticket_bloc.dart';
 import 'package:help_desk/features/ticket/presentation/bloc/ticket_event.dart';
 import 'package:help_desk/features/ticket/presentation/bloc/ticket_state.dart';
 import 'package:help_desk/features/ticket/presentation/pages/abrir_ticket.dart';
 
 class HomePage extends StatefulWidget {
-
+ 
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+
+
 
   void initState() {
     super.initState();
@@ -117,6 +120,8 @@ class _HomePageState extends State<HomePage> {
           Navigator.push(context, MaterialPageRoute(builder: (_){
             return AbrirTicketPage();
           }));
+
+          context.read<TicketListBloc>().add(FetchTickets());
         },
         backgroundColor: Colors.black,
         child: const Icon(Icons.add, color: Colors.white,),
