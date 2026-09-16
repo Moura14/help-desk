@@ -79,6 +79,7 @@ class MyApp extends StatelessWidget {
         
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Help Desk',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
