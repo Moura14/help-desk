@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:help_desk/features/ticket/data/model/editar_ticket_model.dart';
 import 'package:help_desk/features/ticket/data/model/ticket_response.dart';
 import 'package:help_desk/features/ticket/data/model/ticket_response_model.dart';
 import 'package:help_desk/features/ticket/domain/usecase/ticket_usecase.dart';
@@ -14,7 +15,7 @@ class TicketBloc extends Bloc<TicketEvent, TicketState> {
       (event, emit) async {
         emit(TicketLoading());
         try {
-          final TicketResponse response =
+          final TicketResponseModel response =
               await ticketUsecase.criarTicket(event.ticket);
           emit(TicketSuccess(response));
         } catch (e) {
@@ -22,7 +23,17 @@ class TicketBloc extends Bloc<TicketEvent, TicketState> {
         }
       },
     );
+    on<EditarTicketPressed>((event, emit) async{
+      emit(TicketLoading());
+      try{
+        final TicketResponseModel response = await ticketUsecase.editarTicket(event.id, event.ticket);
+        emit(TicketEditSuccess(response));
+      }catch(e){
+        emit(TicketEditFailure(e.toString()));
+      }
+    });
   }
+  
 }
 
 

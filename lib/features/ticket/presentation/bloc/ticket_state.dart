@@ -1,3 +1,4 @@
+import 'package:help_desk/features/ticket/data/model/editar_ticket_model.dart';
 import 'package:help_desk/features/ticket/data/model/ticket_response.dart';
 import 'package:help_desk/features/ticket/data/model/ticket_response_model.dart';
 
@@ -8,7 +9,7 @@ class TicketInitial extends TicketState {}
 class TicketLoading extends TicketState {}
 
 class TicketSuccess extends TicketState {
-  final TicketResponse response;
+  final TicketResponseModel response;
   TicketSuccess(this.response);
 }
 
@@ -27,7 +28,7 @@ class TicketListLoading extends TicketListState{}
 class TicketListSucess extends TicketListState{
 
 
-  final List<TicketResponse> tickets;
+  final List<TicketResponseModel> tickets;
   TicketListSucess(this.tickets);
 }
 
@@ -35,4 +36,18 @@ class TicketListFailure extends TicketListState{
   final String message;
   TicketListFailure(this.message);
 }
+
+
+class TicketEditSuccess extends TicketState{
+  final TicketResponseModel response;
+
+  TicketEditSuccess(this.response);
+}
+
+class TicketEditFailure extends TicketState {
+  final String message;
+  TicketEditFailure(this.message);
+}
+
+
 

@@ -1,4 +1,5 @@
 import 'package:help_desk/features/ticket/data/datasource/ticket_datasource.dart';
+import 'package:help_desk/features/ticket/data/model/editar_ticket_model.dart';
 import 'package:help_desk/features/ticket/data/model/ticket_create_model.dart';
 import 'package:help_desk/features/ticket/data/model/ticket_response.dart';
 import 'package:help_desk/features/ticket/data/model/ticket_response_model.dart';
@@ -10,13 +11,18 @@ class TicketRepositoriesDataImpl implements TicketRepositorieDomain {
   TicketRepositoriesDataImpl({required this.ticketDatasource});
 
   @override
-  Future<TicketResponse> criarTicket(TicketModel ticket) {
+  Future<TicketResponseModel> criarTicket(TicketModel ticket) {
     return ticketDatasource.criarTicket(ticket);
   }
 
   @override
   Future<TicketListResponse> listarTicket(){
     return ticketDatasource.listarTicket();
+  }
+
+  @override
+  Future<TicketResponseModel> editarTicket(int id, EditarTicketModel editarTicket){
+    return ticketDatasource.editarTicket(id, editarTicket);
   }
 
  

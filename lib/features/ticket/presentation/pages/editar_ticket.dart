@@ -1,32 +1,53 @@
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:help_desk/features/ticket/data/model/ticket_create_model.dart';
+import 'package:help_desk/features/ticket/data/model/editar_ticket_model.dart';
+import 'package:help_desk/features/ticket/data/model/ticket_response_model.dart';
 import 'package:help_desk/features/ticket/presentation/bloc/ticket_bloc.dart';
 import 'package:help_desk/features/ticket/presentation/bloc/ticket_event.dart';
 import 'package:help_desk/features/ticket/presentation/bloc/ticket_state.dart';
 import 'package:image_picker/image_picker.dart';
 
-class AbrirTicketPage extends StatefulWidget {
 
+class EditarTicketPage extends StatefulWidget {
+  final TicketResponseModel ticket;
 
-
-  const AbrirTicketPage({super.key});
+  const EditarTicketPage({super.key, required this.ticket});
 
   @override
-  State<AbrirTicketPage> createState() => _AbrirTicketPageState();
+  State<EditarTicketPage> createState() => _EditarTicketPageState();
 }
 
-class _AbrirTicketPageState extends State<AbrirTicketPage> {
-  final tituloController = TextEditingController();
-  final descricaoController = TextEditingController();
-  final prioridadeController = TextEditingController();
-  final categoriaController = TextEditingController();
-  final anexoController = TextEditingController();
-
+class _EditarTicketPageState extends State<EditarTicketPage> {
+  late TextEditingController tituloController;
+  late TextEditingController descricaoController;
+  late TextEditingController prioridadeController;
+  late TextEditingController categoriaController;
+  late TextEditingController anexoController;
 
   File? imagemSelecionada;
   final ImagePicker _picker = ImagePicker();
+
+  @override
+  void initState() {
+    super.initState();
+    // Inicializa os controllers com os valores atuais
+    tituloController = TextEditingController(text: widget.ticket.titulo);
+    descricaoController = TextEditingController(text: widget.ticket.descricao);
+    prioridadeController = TextEditingController(text: widget.ticket.prioridade);
+    categoriaController = TextEditingController(text: widget.ticket.categoria);
+    anexoController = TextEditingController(text: widget.ticket.anexoUrl);
+  }
+
+  @override
+  void dispose() {
+    tituloController.dispose();
+    descricaoController.dispose();
+    prioridadeController.dispose();
+    categoriaController.dispose();
+    super.dispose();
+  }
 
   Future<void> _selecionarImagem(ImageSource source) async {
     final XFile? imagem = await _picker.pickImage(source: source);
@@ -38,7 +59,7 @@ class _AbrirTicketPageState extends State<AbrirTicketPage> {
     }
   }
 
-  void _abrirOpcoesAnexo() {
+   void _abrirOpcoesAnexo() {
     showModalBottomSheet(
       context: context,
       builder: (_) => Wrap(
@@ -66,44 +87,22 @@ class _AbrirTicketPageState extends State<AbrirTicketPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(kToolbarHeight),
-        child: BlocConsumer<TicketBloc, TicketState>(
-          listener: (context, state) {
-           if(state is TicketFailure){
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(state.message),
-                  backgroundColor: Colors.red,
-                ),
-              );
-            }else if(state is TicketSuccess){
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Ticket criado com sucesso!'),
-                  backgroundColor: Colors.green,
-                ),
-              );
-              Navigator.pop(context, state.response);
-            }
-          },
-          builder: (context, state) {
-            if(state is TicketLoading){
-              return const Center(child: CircularProgressIndicator());
-            }
-            return AppBar(
-              title: const Text("Abrir Ticket", style: TextStyle(color: Colors.white)),
-              backgroundColor: Colors.black,
-              iconTheme: const IconThemeData(
-              color: Colors.white, // cor da setinha
-  )
-            );
-          },
-        
-        ),
-      ),
-      body: Padding(
+    return  Scaffold(
+  appBar: AppBar(title: const Text("Editar Ticket")),
+  body: BlocListener<TicketBloc, TicketState>(
+    listener: (context, state) {
+      if (state is TicketEditSuccess) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Ticket atualizado com sucesso')),
+        );
+        Navigator.of(context).pop();
+      } else if (state is TicketEditFailure) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Erro: ${state.message}')),
+        );
+      }
+    },
+    child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
           child: Column(
@@ -154,24 +153,29 @@ class _AbrirTicketPageState extends State<AbrirTicketPage> {
                   ),
                 ),
               ),
-              if(imagemSelecionada != null)
-                Image.file(imagemSelecionada!, height: 200, width: double.infinity, fit: BoxFit.cover,),
-              SizedBox(height: 20),
+              if (imagemSelecionada != null)
+                Image.file(
+                  imagemSelecionada!,
+                  height: 200,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                ),
+              const SizedBox(height: 20),
               ElevatedButton.icon(
                 onPressed: () {
-                  final ticket = TicketModel(
-                    titulo: tituloController.text,
-                    descricao: descricaoController.text,
-                    prioridade: prioridadeController.text,
-                    categoria: categoriaController.text,
-                    anexoUrl: anexoController.text,
-                  );
 
-                  context.read<TicketBloc>().add(TicketButtonPressed(ticket));
-                  Navigator.pop(context, true);
+                    final editarTicket = EditarTicketModel(
+                      titulo: tituloController.text.trim(), 
+                      descricao: descricaoController.text.trim(), 
+                      prioridade: prioridadeController.text.trim(), 
+                      categoria: categoriaController.text.trim(), 
+                      status: widget.ticket.status);
+                 
+                   context.read<TicketBloc>().add(EditarTicketPressed(widget.ticket.id, editarTicket));
+                 
                 },
-                icon: const Icon(Icons.send),
-                label: const Text("Criar Ticket"),
+                icon: const Icon(Icons.save),
+                label: const Text("Salvar Alterações"),
                 style: ElevatedButton.styleFrom(
                   minimumSize: const Size(double.infinity, 50),
                   backgroundColor: Colors.black,
@@ -181,7 +185,10 @@ class _AbrirTicketPageState extends State<AbrirTicketPage> {
             ],
           ),
         ),
-      ),
-    );
+      )
+    ));
+    }
+
+
   }
-}
+

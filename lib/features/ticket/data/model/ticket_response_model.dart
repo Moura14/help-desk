@@ -1,4 +1,4 @@
-class TicketResponse {
+class TicketResponseModel {
   final int id;
   final String titulo;
   final String descricao;
@@ -14,7 +14,7 @@ class TicketResponse {
   final DateTime dataAtualizacao;
   final DateTime? dataResolucao;
 
-  TicketResponse({
+  TicketResponseModel({
     required this.id,
     required this.titulo,
     required this.descricao,
@@ -31,9 +31,8 @@ class TicketResponse {
     this.dataResolucao,
   });
 
-
-  factory TicketResponse.fromJson(Map<String, dynamic> json) {
-    return TicketResponse(
+  factory TicketResponseModel.fromJson(Map<String, dynamic> json) {
+    return TicketResponseModel(
       id: json['id'],
       titulo: json['titulo'],
       descricao: json['descricao'],
@@ -53,23 +52,22 @@ class TicketResponse {
     );
   }
 
-
   Map<String, dynamic> toJson() {
     return {
-      "id": id,
-      "titulo": titulo,
-      "descricao": descricao,
-      "prioridade": prioridade,
-      "categoria": categoria,
-      "anexo_url": anexoUrl,
-      "status": status,
-      "criado_por": criadoPor,
-      "criador_nome": criadorNome,
-      "tecnico_responsavel_id": tecnicoResponsavelId,
-      "tecnico_nome": tecnicoNome,
-      "data_criacao": dataCriacao.toIso8601String(),
-      "data_atualizacao": dataAtualizacao.toIso8601String(),
-      "data_resolucao": dataResolucao?.toIso8601String(),
+      'id': id,
+      'titulo': titulo,
+      'descricao': descricao,
+      'prioridade': prioridade,
+      'categoria': categoria,
+      'anexo_url': anexoUrl,
+      'status': status,
+      'criado_por': criadoPor,
+      'criador_nome': criadorNome,
+      'tecnico_responsavel_id': tecnicoResponsavelId,
+      'tecnico_nome': tecnicoNome,
+      'data_criacao': dataCriacao.toIso8601String(),
+      'data_atualizacao': dataAtualizacao.toIso8601String(),
+      'data_resolucao': dataResolucao?.toIso8601String(),
     };
   }
 }

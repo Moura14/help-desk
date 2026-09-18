@@ -1,8 +1,10 @@
+import 'package:help_desk/features/ticket/data/model/editar_ticket_model.dart';
 import 'package:help_desk/features/ticket/data/model/ticket_create_model.dart';
 import 'package:help_desk/features/ticket/data/model/ticket_response.dart';
 import 'package:help_desk/features/ticket/data/model/ticket_response_model.dart';
 
 abstract class TicketRepositorieDomain {
-  Future<TicketResponse> criarTicket(TicketModel ticket);
+  Future<TicketResponseModel> criarTicket(TicketModel ticket);
   Future<TicketListResponse> listarTicket();
+  Future<TicketResponseModel> editarTicket(int id, EditarTicketModel editarTicket);
 }

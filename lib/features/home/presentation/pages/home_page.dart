@@ -3,10 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:help_desk/features/home/presentation/bloc/home_bloc.dart';
 import 'package:help_desk/features/home/presentation/bloc/home_event.dart';
 import 'package:help_desk/features/home/presentation/bloc/home_state.dart';
+import 'package:help_desk/features/ticket/data/model/editar_ticket_model.dart';
+import 'package:help_desk/features/ticket/data/model/ticket_response_model.dart';
 import 'package:help_desk/features/ticket/presentation/bloc/ticket_bloc.dart';
 import 'package:help_desk/features/ticket/presentation/bloc/ticket_event.dart';
 import 'package:help_desk/features/ticket/presentation/bloc/ticket_state.dart';
 import 'package:help_desk/features/ticket/presentation/pages/abrir_ticket.dart';
+import 'package:help_desk/features/ticket/presentation/pages/editar_ticket.dart';
 
 class HomePage extends StatefulWidget {
  
@@ -110,10 +113,7 @@ class _HomePageState extends State<HomePage> {
               return Padding(
             padding: const EdgeInsets.all(8.0),
             child: Center(
-              child: ChamadoCard(titulo: ticket.titulo, 
-              descricao: ticket.descricao,
-              status: ticket.status, 
-              data: ticket.dataCriacao.toString()),
+              child: ChamadoCard(ticketResponse: ticket),
             ),
                     );
             },
@@ -142,17 +142,12 @@ class _HomePageState extends State<HomePage> {
 }
 
 class ChamadoCard extends StatelessWidget {
-  final String titulo;
-  final String descricao;
-  final String status;
-  final String data;
+  
+  final TicketResponseModel ticketResponse;
 
   const ChamadoCard({
     super.key,
-    required this.titulo,
-    required this.descricao,
-    required this.status,
-    required this.data,
+    required this.ticketResponse,
   });
 
   @override
@@ -170,7 +165,7 @@ class ChamadoCard extends StatelessWidget {
           children: [
             // título do chamado
             Text(
-              titulo,
+              ticketResponse.titulo,
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
@@ -178,7 +173,7 @@ class ChamadoCard extends StatelessWidget {
             const SizedBox(height: 8),
             // descrição
             Text(
-              descricao,
+              ticketResponse.descricao,
               style: Theme.of(context).textTheme.bodyMedium,
             ),
             const SizedBox(height: 12),
@@ -187,7 +182,11 @@ class ChamadoCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 IconButton(
-              onPressed: (){}, 
+              onPressed: (){
+                Navigator.of(context).push(MaterialPageRoute(builder: (_){
+                  return EditarTicketPage(ticket: ticketResponse);
+                }));
+              }, 
               icon: Icon(Icons.edit)),
               IconButton(
                 onPressed: (){
