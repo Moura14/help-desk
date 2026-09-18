@@ -24,6 +24,10 @@ class TicketUsecase {
     return await ticketRepositorieDomain.editarTicket(id, editarTicketModel);
   }
 
+  Future<void> deletarTicket(int id) async{
+    return await ticketRepositorieDomain.deletarTicket(id);
+  }
+
  
 
 }

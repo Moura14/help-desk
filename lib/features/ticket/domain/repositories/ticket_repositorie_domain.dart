@@ -7,4 +7,5 @@ abstract class TicketRepositorieDomain {
   Future<TicketResponseModel> criarTicket(TicketModel ticket);
   Future<TicketListResponse> listarTicket();
   Future<TicketResponseModel> editarTicket(int id, EditarTicketModel editarTicket);
+  Future<void> deletarTicket(int id);
 }

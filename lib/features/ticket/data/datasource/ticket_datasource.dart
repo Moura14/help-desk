@@ -11,7 +11,7 @@ abstract class TicketDatasource {
   Future<TicketResponseModel> criarTicket(TicketModel ticket);
   Future<TicketListResponse> listarTicket();
   Future<TicketResponseModel> editarTicket(int id, EditarTicketModel editarTicket);
-
+  Future<void> deletarTicket(int id);
 
 }
 
@@ -104,5 +104,32 @@ class TicketDataSourceImpl implements TicketDatasource{
       rethrow;
     }
   }
+
+  @override
+Future<Response> deletarTicket(int id) async {
+  try {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('access_token');
+
+    final response = await dio.delete(
+      Endpoint.deletarTicket(id),
+      options: Options(
+        headers: {
+          "Authorization": "Bearer $token",
+          "Content-Type": "application/json",
+        },
+      ),
+    );
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return response;
+    } else {
+      throw Exception('Erro ao deletar ticket: ${response.data}');
+    }
+  } catch (e) {
+    throw Exception('Falha na requisição: $e');
+  }
+}
+
 
 }

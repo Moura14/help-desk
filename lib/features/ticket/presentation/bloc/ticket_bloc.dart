@@ -32,9 +32,21 @@ class TicketBloc extends Bloc<TicketEvent, TicketState> {
         emit(TicketEditFailure(e.toString()));
       }
     });
+
+    on<DeletarTicketPressed>((event, emit) async {
+  emit(TicketLoading());
+  try {
+    await ticketUsecase.deletarTicket(event.id); // não retorna nada
+    emit(TicketDeleteSucess()); // se chegou até aqui, deu certo
+  } catch (e) {
+    emit(TicketDadosFailure(e.toString()));
+  }
+});
+
+  }
   }
   
-}
+
 
 
 class TicketListBloc extends Bloc<TicktListEvent, TicketListState>{
@@ -53,8 +65,9 @@ class TicketListBloc extends Bloc<TicktListEvent, TicketListState>{
       }
     });
   }
-
 }
+
+
 
 
 

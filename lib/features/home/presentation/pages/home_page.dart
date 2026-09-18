@@ -192,22 +192,42 @@ class ChamadoCard extends StatelessWidget {
                 onPressed: (){
                   showDialog(context: context, 
                   builder: (context){
-                    return AlertDialog(
-                      title: const Text('Confirmação'),
-                      content: const Text('Deseja realmente exluir esse item?'),
-                      actions: [
-                        TextButton(
-                          onPressed: (){
-                            Navigator.pop(context);
-                          }, 
-                          child: Text('Cancelar')),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.red
-                            ),
-                            onPressed: (){}, 
-                            child: Text('Confirmar', style: TextStyle(color: Colors.white)))
-                      ],
+                    return BlocListener<TicketBloc, TicketState>(
+                      listener: (context, state){
+                        if(state is TicketDeleteSucess){
+                          Navigator.of(context).pop();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Ticket deletado com sucesso'))
+                          );
+                          context.read<TicketListBloc>().add(FetchTickets());
+                        }else if( state is TicketDadosFailure){
+                          Navigator.of(context).pop();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Erro'))
+                          );
+                        }
+                      },
+                      child: AlertDialog(
+                        title: const Text('Confirmação'),
+                        content: const Text('Deseja realmente exluir esse item?'),
+                        actions: [
+                          TextButton(
+                            onPressed: (){
+                              Navigator.pop(context);
+                            }, 
+                            child: Text('Cancelar')),
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.red
+                              ),
+                              onPressed: (){
+                                context.read<TicketBloc>().add(
+                                  DeletarTicketPressed(ticketResponse.id)
+                                );
+                              }, 
+                              child: Text('Confirmar', style: TextStyle(color: Colors.white)))
+                        ],
+                      ),
                     );
                   });
                 }, 

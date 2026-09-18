@@ -25,7 +25,11 @@ class TicketRepositoriesDataImpl implements TicketRepositorieDomain {
     return ticketDatasource.editarTicket(id, editarTicket);
   }
 
- 
+  @override
+  Future<void> deletarTicket(int id){
+    return ticketDatasource.deletarTicket(id);
 
-  
+ 
+}
+
 }

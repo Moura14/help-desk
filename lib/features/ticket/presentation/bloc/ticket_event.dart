@@ -21,3 +21,8 @@ class EditarTicketPressed extends TicketEvent{
 
   EditarTicketPressed(this.id, this.ticket);
 }
+
+class DeletarTicketPressed extends TicketEvent {
+  final int id;
+  DeletarTicketPressed(this.id);
+}

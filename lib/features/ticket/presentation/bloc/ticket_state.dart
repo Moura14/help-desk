@@ -49,5 +49,12 @@ class TicketEditFailure extends TicketState {
   TicketEditFailure(this.message);
 }
 
+class TicketDeleteSucess extends TicketState{}
+
+class TicketDadosFailure extends TicketState{
+  final String message;
+  TicketDadosFailure(this.message);
+}
+
 
 
