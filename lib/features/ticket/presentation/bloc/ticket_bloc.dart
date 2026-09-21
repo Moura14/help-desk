@@ -1,5 +1,4 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:help_desk/features/ticket/data/model/editar_ticket_model.dart';
 import 'package:help_desk/features/ticket/data/model/ticket_response.dart';
 import 'package:help_desk/features/ticket/data/model/ticket_response_model.dart';
 import 'package:help_desk/features/ticket/domain/usecase/ticket_usecase.dart';
@@ -36,8 +35,8 @@ class TicketBloc extends Bloc<TicketEvent, TicketState> {
     on<DeletarTicketPressed>((event, emit) async {
   emit(TicketLoading());
   try {
-    await ticketUsecase.deletarTicket(event.id); // não retorna nada
-    emit(TicketDeleteSucess()); // se chegou até aqui, deu certo
+    await ticketUsecase.deletarTicket(event.id); 
+    emit(TicketDeleteSucess());
   } catch (e) {
     emit(TicketDadosFailure(e.toString()));
   }

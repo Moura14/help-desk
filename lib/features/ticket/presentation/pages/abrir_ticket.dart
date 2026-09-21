@@ -85,7 +85,9 @@ class _AbrirTicketPageState extends State<AbrirTicketPage> {
                   backgroundColor: Colors.green,
                 ),
               );
-              Navigator.pop(context, state.response);
+             
+              context.read<TicketListBloc>().add(FetchTickets());
+               Navigator.pop(context, state.response);
             }
           },
           builder: (context, state) {

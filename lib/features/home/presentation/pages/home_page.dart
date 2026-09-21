@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:help_desk/features/home/presentation/bloc/home_bloc.dart';
 import 'package:help_desk/features/home/presentation/bloc/home_event.dart';
 import 'package:help_desk/features/home/presentation/bloc/home_state.dart';
-import 'package:help_desk/features/ticket/data/model/editar_ticket_model.dart';
 import 'package:help_desk/features/ticket/data/model/ticket_response_model.dart';
 import 'package:help_desk/features/ticket/presentation/bloc/ticket_bloc.dart';
 import 'package:help_desk/features/ticket/presentation/bloc/ticket_event.dart';
