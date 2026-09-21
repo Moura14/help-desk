@@ -6,7 +6,7 @@ import 'package:help_desk/features/login/presentation/bloc/login_bloc.dart';
 import 'package:help_desk/features/login/presentation/bloc/login_event.dart';
 import 'package:help_desk/features/login/presentation/bloc/login_state.dart';
 import 'package:help_desk/features/login/presentation/pages/register_page.dart';
-
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -22,6 +22,7 @@ class _LoginPageState extends State<LoginPage> {
   final senhaController = TextEditingController();
 
   bool ocultarSenha = false;
+  
 
   
 
@@ -139,32 +140,39 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   const SizedBox(height: 24),
-        
-                  
-                  SizedBox(
-                    width: double.infinity,
-                    height: 50,
-                    child: ElevatedButton(
-                      onPressed: emailController.text.isNotEmpty && senhaController.text.isNotEmpty ? () {
-                        context.read<LoginBloc>().add(LoginButtonPressed(email: emailController.text, senha: senhaController.text));
-                      } : null,
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+                        SizedBox(
+                          width: double.infinity,
+                          height: 50,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.black,   // fundo preto
+                              foregroundColor: Colors.white,   // texto branco
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
+                            onPressed: (emailController.text.isNotEmpty &&
+                                        senhaController.text.isNotEmpty)
+                                ? () {
+                                    context.read<LoginBloc>().add(
+                                      LoginButtonPressed(
+                                        email: emailController.text,
+                                        senha: senhaController.text,
+                                      ),
+                                    );
+                                  }
+                                : null, // desabilita se vazio
+                            child: const Text(
+                              'Entrar',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
                         ),
-                        backgroundColor: Colors.black,
-                        foregroundColor: Colors.white,
-                      ),
-                      child: const Text(
-                        'Entrar',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 16),
+
+                 const SizedBox(height: 16),
         
                 
                   Row(

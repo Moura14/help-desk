@@ -28,6 +28,18 @@ class _RegisterPageState extends State<RegisterPage> {
     filter: { "#": RegExp(r'[0-9]') },
   );
 
+  @override
+void initState() {
+  super.initState();
+
+  // sempre que o texto mudar, força rebuild
+  nomeController.addListener(() => setState(() {}));
+  emailController.addListener(() => setState(() {}));
+  senha.addListener(() => setState(() {}));
+  telefone.addListener(() => setState(() {}));
+}
+
+
 
 
   @override
@@ -223,36 +235,43 @@ class _RegisterPageState extends State<RegisterPage> {
         
                   // Botão Registrar
                   SizedBox(
-                    width: double.infinity,
-                    height: 50,
-                    child: ElevatedButton(
-                      onPressed: nomeController.text.isNotEmpty &&
-                      emailController.text.isNotEmpty &&
-                      telefone.text.isNotEmpty && senha.text.isNotEmpty ? () {
-                        final registro = RegisterModel(
-                          nome: nomeController.text, 
-                          email: emailController.text, 
-                          senha: senha.text,  
-                          telefone: telefone.text, );
-                          context.read<RegisterBloc>().add(RegisterButtonPressed(registro));
-                          print(registro);
-                      } : null,
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        backgroundColor: Colors.black,
-                        foregroundColor: Colors.white,
+                  width: double.infinity,
+                  height: 50,
+                  child: ElevatedButton(
+                    onPressed: (nomeController.text.isNotEmpty &&
+                                emailController.text.isNotEmpty &&
+                                senha.text.isNotEmpty &&
+                                telefone.text.isNotEmpty)
+                        ? () {
+                            final registro = RegisterModel(
+                              nome: nomeController.text,
+                              email: emailController.text,
+                              senha: senha.text,
+                              telefone: telefone.text,
+                            );
+
+                            context.read<RegisterBloc>().add(RegisterButtonPressed(registro));
+                            print(registro);
+                          }
+                        : null, // desabilita se algum campo estiver vazio
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
                       ),
-                      child: const Text(
-                        'Cadastrar',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      backgroundColor: Colors.black,
+                      foregroundColor: Colors.white,
+                    ),
+                    child: const Text(
+                      'Cadastrar',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
+                ),
+
+
                   const SizedBox(height: 16),
         
                   // Já tem conta?
