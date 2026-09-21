@@ -226,21 +226,17 @@ class _RegisterPageState extends State<RegisterPage> {
                     width: double.infinity,
                     height: 50,
                     child: ElevatedButton(
-                      onPressed: () {
+                      onPressed: nomeController.text.isNotEmpty &&
+                      emailController.text.isNotEmpty &&
+                      telefone.text.isNotEmpty && senha.text.isNotEmpty ? () {
                         final registro = RegisterModel(
                           nome: nomeController.text, 
                           email: emailController.text, 
                           senha: senha.text,  
                           telefone: telefone.text, );
-
-
-
                           context.read<RegisterBloc>().add(RegisterButtonPressed(registro));
-
-                          
-
                           print(registro);
-                      },
+                      } : null,
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),

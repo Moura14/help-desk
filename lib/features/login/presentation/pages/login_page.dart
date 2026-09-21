@@ -145,9 +145,9 @@ class _LoginPageState extends State<LoginPage> {
                     width: double.infinity,
                     height: 50,
                     child: ElevatedButton(
-                      onPressed: () {
+                      onPressed: emailController.text.isNotEmpty && senhaController.text.isNotEmpty ? () {
                         context.read<LoginBloc>().add(LoginButtonPressed(email: emailController.text, senha: senhaController.text));
-                      },
+                      } : null,
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
