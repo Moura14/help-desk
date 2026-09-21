@@ -5,6 +5,7 @@ import 'package:help_desk/features/login/data/models/register_model.dart';
 import 'package:help_desk/features/login/presentation/bloc/register_bloc.dart';
 import 'package:help_desk/features/login/presentation/bloc/register_event.dart';
 import 'package:help_desk/features/login/presentation/bloc/register_state.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -19,6 +20,14 @@ class _RegisterPageState extends State<RegisterPage> {
   final emailController = TextEditingController();
   final telefone = TextEditingController();
   final senha = TextEditingController();
+
+   bool ocultarSenha = false;
+
+   final telefoneFormatter = MaskTextInputFormatter(
+    mask: '(##) #####-####',
+    filter: { "#": RegExp(r'[0-9]') },
+  );
+
 
 
   @override
@@ -98,6 +107,7 @@ class _RegisterPageState extends State<RegisterPage> {
         
                   // Campo de E-mail
                   TextFormField(
+                    keyboardType: TextInputType.emailAddress,
                     controller: emailController,
                     decoration: InputDecoration(
                       labelText: 'E-mail',
@@ -113,7 +123,9 @@ class _RegisterPageState extends State<RegisterPage> {
                   const SizedBox(height: 16),
         
                   TextFormField(
+                    keyboardType: TextInputType.phone,
                     controller: telefone,
+                    inputFormatters: [telefoneFormatter],
                     decoration: InputDecoration(
                       labelText: 'Telefone',
                       hintText: 'Digite seu telefone',
@@ -125,6 +137,14 @@ class _RegisterPageState extends State<RegisterPage> {
                       filled: true,
                       fillColor: Colors.grey[50],
                     ),
+                    validator: (value){
+                      if(value == null || value.isEmpty){
+                        return "Digite seu telefone";
+                      }
+                      if(value.length < 14){
+                        return "Número incompleto";
+                      }
+                    },
                   ),
 
                    const SizedBox(height: 16),
@@ -132,14 +152,20 @@ class _RegisterPageState extends State<RegisterPage> {
                   // Campo de Senha
                   TextFormField(
                     controller: senha,
-                    obscureText: true,
+                    obscureText: ocultarSenha,
                     decoration: InputDecoration(
                       labelText: 'Senha',
                       hintText: 'Digite sua senha',
                       prefixIcon: const Icon(Icons.lock_outline),
                       suffixIcon: IconButton(
-                        icon: const Icon(Icons.visibility_off),
-                        onPressed: () {},
+                        icon:  Icon(
+                          ocultarSenha ? Icons.visibility_off : Icons.visibility
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            ocultarSenha = !ocultarSenha;
+                          });
+                        },
                       ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),

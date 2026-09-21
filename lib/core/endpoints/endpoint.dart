@@ -10,5 +10,4 @@ class Endpoint {
   static String editarTicket(int id) => "https://api-python-1-k4m2.onrender.com/tickets/$id";
   static String deletarTicket(int id) => "https://api-python-1-k4m2.onrender.com/tickets/$id";
 
-
 }

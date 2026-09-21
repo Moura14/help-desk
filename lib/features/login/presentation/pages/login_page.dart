@@ -7,6 +7,7 @@ import 'package:help_desk/features/login/presentation/bloc/login_event.dart';
 import 'package:help_desk/features/login/presentation/bloc/login_state.dart';
 import 'package:help_desk/features/login/presentation/pages/register_page.dart';
 
+
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -20,6 +21,9 @@ class _LoginPageState extends State<LoginPage> {
   final emailController = TextEditingController();
   final senhaController = TextEditingController();
 
+  bool ocultarSenha = false;
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -85,11 +89,13 @@ class _LoginPageState extends State<LoginPage> {
         
                  
                   TextFormField(
+                    keyboardType: TextInputType.emailAddress,
                     controller: emailController,
                     decoration: InputDecoration(
                       labelText: 'Email',
                       hintText: 'Digite seu e-mail',
                       prefixIcon: const Icon(Icons.email_outlined),
+                      
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -102,14 +108,18 @@ class _LoginPageState extends State<LoginPage> {
                  
                   TextFormField(
                     controller: senhaController,
-                    obscureText: true,
+                    obscureText: ocultarSenha,
                     decoration: InputDecoration(
                       labelText: 'Senha',
                       hintText: 'Digite sua senha',
                       prefixIcon: const Icon(Icons.lock_outline),
                       suffixIcon: IconButton(
-                        icon: const Icon(Icons.visibility_off),
-                        onPressed: () {},
+                        icon:  Icon(ocultarSenha ? Icons.visibility_off : Icons.visibility),
+                        onPressed: () {
+                          setState(() {
+                            ocultarSenha = !ocultarSenha;
+                          });
+                        },
                       ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
