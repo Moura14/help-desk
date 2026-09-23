@@ -32,7 +32,7 @@ class _RegisterPageState extends State<RegisterPage> {
 void initState() {
   super.initState();
 
-  // sempre que o texto mudar, força rebuild
+  
   nomeController.addListener(() => setState(() {}));
   emailController.addListener(() => setState(() {}));
   senha.addListener(() => setState(() {}));

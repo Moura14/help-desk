@@ -160,7 +160,12 @@ class _AbrirTicketPageState extends State<AbrirTicketPage> {
                 Image.file(imagemSelecionada!, height: 200, width: double.infinity, fit: BoxFit.cover,),
               SizedBox(height: 20),
               ElevatedButton.icon(
-                onPressed: () {
+                onPressed: (tituloController.text.isNotEmpty &&
+                descricaoController.text.isNotEmpty &&
+                prioridadeController.text.isNotEmpty &&
+                categoriaController.text.isNotEmpty &&
+                anexoController.text.isNotEmpty 
+                ) ? () {
                   final ticket = TicketModel(
                     titulo: tituloController.text,
                     descricao: descricaoController.text,
@@ -171,7 +176,8 @@ class _AbrirTicketPageState extends State<AbrirTicketPage> {
 
                   context.read<TicketBloc>().add(TicketButtonPressed(ticket));
                   Navigator.pop(context, true);
-                },
+                }
+                : null,
                 icon: const Icon(Icons.send),
                 label: const Text("Criar Ticket"),
                 style: ElevatedButton.styleFrom(
